@@ -70,6 +70,39 @@
         <p> 当代码中存在循环引用现象时，“引用计数”算法就会导致问题。</p>
         <p> 解除变量的引用不仅有助于消除循环引用现象，而且对垃圾收集也有好处。为了确保有效地回
         收内存，应该及时解除不再使用的全局对象、全局对象属性以及循环引用变量的引用。</p>
+        <h4>引用类型</h4>
+        <p>最多的引用类型是Object对象的实例</p>
+        <p>var person = new Object();</p>
+        <p>   person.name = "Nicholas";</p>
+        <p>   person.age = 29;</p>
+        <p>我更喜欢对象字面量的表示方法，看起来更有条理</p>
+        <p>var person = {</p>
+        <p>name : "Nicholas",</p>
+        <p>age : 29</p>
+        <p>};</p>
+        <p>对象字面量也是传递大量参数的首选方式</p>
+        <p>var data = {</p>
+        <p>   name : "xiaoming",</p>
+        <p>   age : 20,</p>
+        <p>   id : 10</p>
+        <p>};</p>
+        <p>sendData(data);</p>
+        <p><strong>访问对象属性。.表示法与[]表示法的区别</strong></p>
+        <p>首选.表示法。</p>
+        <p>通过变量访问对象的属性时 ，用[]表示法。</p>
+        <p>属性名中包含标识符的非法字符或关键字保留字时，用[]表示法。</p>
+        <h4>javascript中的数组</h4>
+        <p>javascript中的数组区别于其他语言。数组的每一项可以保存任何类型的数据，而不用类似java的泛型。而且数组的
+        大小事动态调整的，随着数据的增长而自动增长。</p>
+        <p>创建数组的两种方式</p>
+        <p><strong>Array构造器创建</strong>（可以省略new操作符）</p>
+        <p>var colors = new Array();</p>
+        <p>var colors = new Array(20);</p>
+        <p>var colors = new Array("red", "blue", "green");</p>
+        <p><strong>数组字面量创建（不推荐）</strong></p>
+        <p>var colors = ["red", "blue", "green"]; // 创建一个包含3 个字符串的数组</p>
+        <p>var names = []; // 创建一个空数组</p>
+        <p>数组的</p>
     </article>
 </body>
 </html>
