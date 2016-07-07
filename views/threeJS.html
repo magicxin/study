@@ -6,14 +6,26 @@
     <script src="../js/libs/three.js"></script>
     <title></title>
 </head>
-
+<style>
+    p{
+        font-size : 2em;
+        float : left;
+        text-align:center;
+        margin-left : 100px;
+        padding-left : 30px;
+    }
+</style>
 <body >
        <h1>所有例子使用three.js r60版本</h1>
-       <div id="createScene" class="canvas"></div>
-       <div class="canvas" id="cloneScene"></div>
-       <div class="canvas"></div>
-       <div class="canvas"></div>
-        <p>创建3d场景</p><p>克隆3d场景</p><p></p><p></p>
+       <div style="width: 1900px; height: 270px;text-align:center;margin:10px auto;">
+           <div id="createScene" class="canvas"></div>
+           <div id="cloneScene" class="canvas" ></div>
+           <div class="canvas"></div>
+           <div class="canvas"></div>
+       </div>
+       <div style="width: 1900px; height: 50px;text-align:center;margin:10px auto;">
+        <p>创建3d场景</p><p>克隆3d场景</p><p>克隆3d场景</p><p>克隆3d场景</p>
+           </div>
        <div class="canvas"></div>
        <div class="canvas"></div>
        <div class="canvas"></div>
@@ -25,59 +37,83 @@
 
        <script type="text/javascript">
            var createScene = {
-               scene : null,
-               render : null,
-               camera : null,
                id : 'createScene',
-               init :  function(){
-                   //创建场景
-                   this.scene = new THREE.Scene();
-                   //创建相机
-                   this.camera = new THREE.PerspectiveCamera(
-                           45,300 / 250,0.1,1000
-                   );
-                   //创建渲染
-                   this.render = new THREE.WebGLRenderer();
+               //创建场景
+               scene :new THREE.Scene(),
+               //创建渲染
+               render : new THREE.WebGLRenderer(),
+               //创建相机
+               camera : new THREE.PerspectiveCamera(
+                       45,300 / 250,0.1,1000
+               ),
+               //参考系
+               axes : null,
+               plane : new THREE.Mesh(new THREE.PlaneBufferGeometry(20,8,1,1),new THREE.MeshBasicMaterial({
+                   color: 0xCCCCCC
+               })),
+               setRender : function(){
                    //设置渲染颜色
-                   this.render.setClearColorHex(0xEEEEEE);
-                   //createScene.render.setSize(window.innerWidth,window.innerHeight);
+                   this.render.setClearColor(0xEEEEEE);
+               },
+               setPlane : function(){
+                    //设置平面旋转角度,平面位置
+                   this.plane.rotation.x = -0.5*Math.PI;
+                   this.plane.position.set(0,0,0);
 
-                   //参考系
-                   var axes = new THREE.AxisHelper(20);
-                   //参考系放到场景中
-                   this.scene.add(axes);
-                   //创建平面物体
-                   var planeGeometry = new THREE.PlaneGeometry(20,8,1,1);
-                   //创建材质
-                   var planeMaterial = new THREE.MeshBasicMaterial({
-                       color: 0xCCCCCC
-                   });
-                   //添加属性到平面
-                   var plane = new THREE.Mesh(planeGeometry,planeMaterial);
-                   //设置平面旋转角度,平面位置
-                   plane.rotation.x = -0.5*Math.PI;
-                   plane.position.set(0,0,0);
-                   //添加到场景中
-                   this.scene.add(plane);
+               },
+               setCamera : function(){
                    //设置相机位置
                    this.camera.position.set(-10,15,10);
                    this.camera.lookAt(this.scene.position);
+               },
 
+               init :  function(){
+                   this.axes = new THREE.AxisHelper(20);
+                   this.setRender();
+                   this.setPlane();
+                   this.setCamera();
+                   if(this.hasOwnProperty('setStatus')){
+                       this.setStatus();
+                   }
+                   if(this.hasOwnProperty('setObjects')){
+                       this.setObjects();
+                   }
+                   //参考系放到场景中
+                   this.scene.add(this.axes);
+                   //添加到场景中
+                   this.scene.add(this.plane);
                    document.getElementById(this.id).appendChild(this.render.domElement);
+                   console.log(this.id);
                    this.render.render(this.scene,this.camera);
                }
 
            }
+           //对象字面量模仿继承，创建以原对象为模型的新对象
+           if(typeof Object.beget !== 'function'){
+                Object.beget = function(o){
+                    var F = function(){};
+                    F.prototype = o;
+                    return new F();
+                };
+           }
 
-           var cloneScene = createScene;
-           cloneScene.id = 'cloneScene';
-        window.onload = init();
+           //模仿继承的新对象属性方法设置
+           {
+               var cloneScene = Object.beget(createScene);
+               cloneScene.id = 'cloneScene';
+               cloneScene.scene = new THREE.Scene();
+               cloneScene.render = new THREE.WebGLRenderer();
+               cloneScene.camera = new THREE.PerspectiveCamera();
+               cloneScene.plane = new THREE.Mesh(new THREE.PlaneBufferGeometry(20,8,1,1),new THREE.MeshBasicMaterial({
+                   color: 0xCCCCCC
+               }));
+           }
+        window.onload = init;
+
            function init(){
                createScene.init();
                cloneScene.init();
            }
-
-           //window.onload = init;
        </script>
 </body>
 </html>
