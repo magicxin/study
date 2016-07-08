@@ -20,11 +20,12 @@
        <div style="width: 1900px; height: 270px;text-align:center;margin:10px auto;">
            <div id="createScene" class="canvas"></div>
            <div id="cloneScene" class="canvas" ></div>
-           <div class="canvas"></div>
-           <div class="canvas"></div>
+           <div id="lightScene" class="canvas"></div>
+           <div id="shadowScene" class="canvas"></div>
+           <div id="animationScene" class="canvas"></div>
        </div>
        <div style="width: 1900px; height: 50px;text-align:center;margin:10px auto;">
-        <p>创建3d场景</p><p>克隆3d场景</p><p>克隆3d场景</p><p>克隆3d场景</p>
+        <p>创建3d场景</p><p>克隆3d场景</p><p>添加光源</p><p>添加物体投影</p><p>添加物体动画</p>
            </div>
        <div class="canvas"></div>
        <div class="canvas"></div>
@@ -48,19 +49,27 @@
                ),
                //参考系
                axes : null,
+               //平面
                plane : new THREE.Mesh(new THREE.PlaneBufferGeometry(20,8,1,1),new THREE.MeshBasicMaterial({
                    color: 0xCCCCCC
                })),
+               //设置渲染属性
                setRender : function(){
                    //设置渲染颜色
                    this.render.setClearColor(0xEEEEEE);
                },
+               //设置动态渲染
+               renderScene : function(){
+                   this.render.render(this.scene , this.camera);
+               },
+               //设置平面属性
                setPlane : function(){
                     //设置平面旋转角度,平面位置
                    this.plane.rotation.x = -0.5*Math.PI;
                    this.plane.position.set(0,0,0);
 
                },
+               //设置相机属性
                setCamera : function(){
                    //设置相机位置
                    this.camera.position.set(-10,15,10);
@@ -69,22 +78,27 @@
 
                init :  function(){
                    this.axes = new THREE.AxisHelper(20);
-                   this.setRender();
                    this.setPlane();
+                   this.setRender();
                    this.setCamera();
-                   if(this.hasOwnProperty('setStatus')){
+                   if(typeof(this.setStatus)==='function'){
                        this.setStatus();
                    }
-                   if(this.hasOwnProperty('setObjects')){
+                   //判断是否放入物体
+                   if(typeof(this.setObjects)==='function'){
                        this.setObjects();
+                   }
+                   //判断是否放置光源
+                   if(typeof(this.setLight)==='function'){
+                       this.setLight();
                    }
                    //参考系放到场景中
                    this.scene.add(this.axes);
                    //添加到场景中
                    this.scene.add(this.plane);
+                   //创建canvas显示
                    document.getElementById(this.id).appendChild(this.render.domElement);
-                   console.log(this.id);
-                   this.render.render(this.scene,this.camera);
+                   this.renderScene();
                }
 
            }
@@ -108,11 +122,91 @@
                    color: 0xCCCCCC
                }));
            }
+
+           {
+               //没有效果是因为不同的材质（material）反射不同的光,basic材质不会反射任何的光。所以把材质替换为lambert
+               //两种有两种材质考虑到光源(take light sourse into account)  lambert和phong。
+               var lightScene = Object.beget(createScene);
+               lightScene.id = 'lightScene';
+               lightScene.scene = new THREE.Scene();
+               lightScene.render = new THREE.WebGLRenderer();
+               lightScene.camera = new THREE.PerspectiveCamera();
+               lightScene.plane = new THREE.Mesh(new THREE.PlaneBufferGeometry(20,8,1,1),new THREE.MeshLambertMaterial({
+                   color: 0xCCCCCC
+               }));
+               lightScene.light = new THREE.SpotLight(0xffffff);
+               lightScene.setLight = function(){
+                   this.light.position.set(-40,60,-10);
+                   this.scene.add(this.light);
+               };
+           }
+
+           {
+               var shadowScene = Object.beget(lightScene);
+               shadowScene.id = 'shadowScene';
+               shadowScene.scene = new THREE.Scene();
+               shadowScene.render = new THREE.WebGLRenderer();
+               shadowScene.camera = new THREE.PerspectiveCamera();
+               shadowScene.plane = new THREE.Mesh(new THREE.PlaneBufferGeometry(20,8,1,1),new THREE.MeshLambertMaterial({
+                   color: 0xCCCCCC
+               }));
+               shadowScene.cube = new THREE.Mesh(new THREE.BoxGeometry(3,3,3),new THREE.MeshLambertMaterial({
+                   color : 0xff0000
+               }));
+               shadowScene.light = new THREE.SpotLight(0xffffff);
+               //设置渲染投影与接受投影物体，投影物体
+               shadowScene.setRender = function(){
+                   //设置渲染颜色
+                   this.render.setClearColor(0xEEEEEE);
+                   this.render.shadowMapEnabled = true;
+               };
+               shadowScene.setPlane = function(){
+                   this.plane.receiveShadow = true;
+                   //设置平面旋转角度,平面位置
+                   this.plane.rotation.x = -0.5*Math.PI;
+                   this.plane.position.set(0,0,0);
+               };
+               shadowScene.setObjects = function(){
+                   this.cube.position.set(0,1.5,0);
+                   this.cube.castShadow = true;
+                   this.scene.add(this.cube);
+               };
+               shadowScene.setLight = function(){
+                   this.light.castShadow = true;
+                   this.light.position.set(-40,60,-10);
+                   this.scene.add(this.light);
+               };
+           }
+
+           {
+               var animationScene = Object.beget(shadowScene);
+               animationScene.id = 'animationScene';
+               animationScene.scene = new THREE.Scene();
+               animationScene.render = new THREE.WebGLRenderer();
+               animationScene.camera = new THREE.PerspectiveCamera();
+               animationScene.plane = new THREE.Mesh(new THREE.PlaneBufferGeometry(20,8,1,1),new THREE.MeshLambertMaterial({
+                   color: 0xCCCCCC
+               }));
+               animationScene.cube = new THREE.Mesh(new THREE.BoxGeometry(3,3,3),new THREE.MeshLambertMaterial({
+                   color : 0xff0000
+               }));
+               animationScene.light = new THREE.SpotLight(0xffffff);
+               animationScene.renderScene = function(){
+                   animationScene.cube.rotation.x += 0.02;
+                   animationScene.cube.rotation.y += 0.02;
+                   animationScene.cube.rotation.z += 0.02;
+                   requestAnimationFrame(animationScene.renderScene);
+                   animationScene.render.render(animationScene.scene , animationScene.camera);
+               };
+           }
         window.onload = init;
 
            function init(){
                createScene.init();
                cloneScene.init();
+               lightScene.init();
+               shadowScene.init();
+               animationScene.init();
            }
        </script>
 </body>
