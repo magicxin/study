@@ -16,6 +16,11 @@ const config = {
     //  filename: 'bundle.js'
     filename: '[name].js'
   },
+  resolve: {
+    alias: {
+      'assets':path.resolve(__dirname,'./src/assets'),
+    }
+  },
   devServer: {
     port: 8088,
     noInfo: true, // 当前环境 下未生效  node v10.5.0  webpack 4.17.0 webpack-dev-server 3.1.0
@@ -30,6 +35,21 @@ const config = {
     rules: [{
       test: /\.vue$/,
       use: 'vue-loader'
+    },{
+      test: /\.css$/,
+      use: ['vue-style-loader','css-loader']
+    },
+    {
+      test: /\.js$/,
+      use: 'babel-loader',
+      exclude: /node_modules/
+    },
+    {
+      test: /\.(png|jpg|gif|svg)$/,
+      loader: 'file-loader',
+      options: {
+        name: '[name].[ext]?[hash]'
+      }
     }]
   },
   plugins: [
