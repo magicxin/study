@@ -1,7 +1,17 @@
 <template>
   <div id="app">
-    <img :src="icon" />
-    <h1>{{ getMsg }}</h1>
+  <el-container>
+      <el-header>Header</el-header>
+      <el-container>
+        <el-aside width="200px">Aside</el-aside>
+        <el-container>
+          <el-main>
+            <router-view></router-view>
+          </el-main>
+          <el-footer>Footer</el-footer>
+        </el-container>
+      </el-container>
+  </el-container>
   </div>
 </template>
 
@@ -12,23 +22,17 @@ export default {
   name: 'app',
   data () {
     return {
-      icon,
-      msg: 'this is my first app'
-    }
-  },
-  computed: {
-    getMsg() {
-      return `${this.msg}`
+      
     }
   }
 }
 </script>
 
 <style>
-#app {
-  font-size:12px;
-}
-img {
-  width:40px;
-}
+.el-container,
+  .el-header,
+  .el-aside,
+  .el-footer {
+    border: 1px solid #000;
+  }
 </style>

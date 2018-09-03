@@ -19,7 +19,11 @@ const config = {
   resolve: {
     alias: {
       'assets':path.resolve(__dirname,'./src/assets'),
-    }
+      'pages':path.resolve(__dirname,'./src/pages'),
+      'router':path.resolve(__dirname,'./src/router'),
+      'css':path.resolve(__dirname,'./src/css')
+    },
+    extensions: ['*', '.js', '.vue', '.json']
   },
   devServer: {
     port: 8088,
@@ -30,6 +34,9 @@ const config = {
 //    warnings: true,
 //    errors: true
 //  }
+  },
+  performance: {
+    hints: false
   },
   module: {
     rules: [{
@@ -43,6 +50,10 @@ const config = {
       test: /\.js$/,
       use: 'babel-loader',
       exclude: /node_modules/
+    },
+    {
+      test: /\.(eot|woff|woff2|ttf)([\\?]?.*)$/,
+      loader: "file-loader"
     },
     {
       test: /\.(png|jpg|gif|svg)$/,
