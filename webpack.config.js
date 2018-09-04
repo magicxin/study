@@ -71,7 +71,7 @@ const config = {
   devtool: 'eval-source-map',
   plugins: [
     new VueLoaderPlugin(),
-    new BundleAnalyzerPlugin()
+//  new BundleAnalyzerPlugin()
 //  new HtmlWebpackPlugin()
   ]
 }

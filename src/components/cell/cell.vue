@@ -9,8 +9,8 @@
       <img :src="obj.icon?obj.icon:icon" />
     </div>
     <div class="title">{{obj.name}}</div>
-    <div class="link" v-if="link">
-      <i class="iconfont icon-qianjin"></i>
+    <div class="link">
+      <i v-if="link" class="iconfont icon-qianjin"></i>
     </div>
   </div>
 </template>
@@ -74,7 +74,8 @@
   }
   
   .avatar img {
-    width: 80%;
+    width: 10vw;
+    height:10vw;
     object-fit: cover;
   }
   
