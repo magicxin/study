@@ -5,15 +5,20 @@ function toggleCheckedById(id,key,arr) {
   arr.forEach((item,index)=>{
     console.log(id,key)
     if( id === item[key]){
-      console.log(item)
       item.checked = checked = !item.checked
       if(!item.checked) {
-        item.parent.checked = false
+        toogleParent(item)
       }
       children = item.children
     }
   })
   return deepResponse(checked,children)
+}
+
+function toogleParent(item) {
+  if(!item.parent) return 
+    item.parent.checked = false
+    toogleParent(item.parent)
 }
 
 function deepResponse(checked,arr) {
@@ -60,9 +65,6 @@ function formatTree(items, parentId, key, parent) {
   return result;
 }
 
-function init() {
-  check = []
-}
 
 function getKey(str) {
   var query = location.hash;
@@ -76,10 +78,10 @@ function getKey(str) {
   }
   return false;
 }
+
 export default {
   sortArray: sortArray,
   getTree: getTree,
   getKey: getKey,
-  toggleCheckedById:toggleCheckedById,
-  init: init
+  toggleCheckedById:toggleCheckedById
 }
