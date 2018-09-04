@@ -1,5 +1,6 @@
 const path = require('path')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 //const HtmlWebpackPlugin = require('html-webpack-plugin')
 const config = {
   //entry:[
@@ -21,7 +22,8 @@ const config = {
       'assets':path.resolve(__dirname,'./src/assets'),
       'pages':path.resolve(__dirname,'./src/pages'),
       'router':path.resolve(__dirname,'./src/router'),
-      'css':path.resolve(__dirname,'./src/css')
+      'css':path.resolve(__dirname,'./src/css'),
+      'components':path.resolve(__dirname,'./src/components')
     },
     extensions: ['*', '.js', '.vue', '.json']
   },
@@ -30,6 +32,7 @@ const config = {
     noInfo: true, // 当前环境 下未生效  node v10.5.0  webpack 4.17.0 webpack-dev-server 3.1.0
     historyApiFallback: true, // 任何404 返回index.html
     compress: true, // gzip压缩 
+    quiet: true, // 隐藏控制台
 //  overlay: {
 //    warnings: true,
 //    errors: true
@@ -63,8 +66,10 @@ const config = {
       }
     }]
   },
+  devtool: 'eval-source-map',
   plugins: [
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    new BundleAnalyzerPlugin()
 //  new HtmlWebpackPlugin()
   ]
 }
