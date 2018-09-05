@@ -79,9 +79,30 @@ function getKey(str) {
   return false;
 }
 
+function getChecked(arr,key) {
+  let check = []
+  searchChecked(check,arr,key)
+  return check
+}
+
+function searchChecked(check,arr,key) {
+  arr.forEach((item,index)=>{
+    if(item[key] && item.checked) {
+      check.push(item)
+    }else if(!item[key]){
+      if(item.children.length>0) {
+        searchChecked(check,item.children,key)
+      }else {
+        return
+      }
+    }
+  })
+  return check
+}
 export default {
   sortArray: sortArray,
   getTree: getTree,
   getKey: getKey,
-  toggleCheckedById:toggleCheckedById
+  toggleCheckedById:toggleCheckedById,
+  getChecked:getChecked
 }

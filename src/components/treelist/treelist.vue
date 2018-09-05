@@ -30,11 +30,17 @@
         default() {
           return 'itemId'
         }
+      },
+      check: {
+        type:Array
       }
     },
     watch: {
       treeList(v) {
         return v
+      },
+      check(v) {
+        this.checked = v
       }
     },
     created() {
@@ -50,6 +56,7 @@
       return {
         treeList:[],
         treeQueue:[],
+        checked:[]
       }
     },
     methods: {
@@ -76,7 +83,8 @@
       },
       toggle(id,key,obj) {
         recursion.toggleCheckedById(id,key,this.treeList)
-        this.$emit('change',this.treeList)
+        let check = recursion.getChecked(this.treeList,this.rootItem)
+        this.$emit('change',check)
       }
     }
   }

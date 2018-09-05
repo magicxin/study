@@ -1,6 +1,7 @@
 <template>
   <div class="treelist">
-    <ma-treelist rootId="10001" rootFold="dept" rootItem="person" :tree="tree" @change="getList"></ma-treelist>
+    <ma-treelist rootId="10001" rootFold="dept" rootItem="person" :tree="tree" :check="check" @change="getList"></ma-treelist>
+    <div @click="checkSome">asdsd</div>
   </div>
 </template>
 
@@ -59,12 +60,16 @@
                   {name:'姚深',icon:avatar,person:18,parentId:1,checked:true},
                   {name:'杨茂',icon:avatar,person:19,parentId:5,checked:false},
                   {name:'陆晓峰',icon:avatar,person:20,parentId:5,checked:false}
-                ]
+                ],
+                check:[]
       }
     },
     methods: {
       getList(arr) {
-        console.log(arr)
+//      console.log(arr)
+      },
+      checkSome() {
+        
       }
     }
   }
