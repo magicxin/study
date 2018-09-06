@@ -1,18 +1,16 @@
 <template>
   <div class="ma-treelist">
     <div v-for="(item,index) in treeList">
-      <cell link :obj="item" v-if="item[rootFold]" @click="deep(index,$event)" @select="toggle(item[rootFold],rootFold,$event)"></cell>
-      <cell :obj="item" v-if="item[rootItem]" @select="toggle(item[rootItem],rootItem,$event)"></cell>
+      <ma-cell link :obj="item" v-if="item[rootFold]" @click="deep(index,$event)" @select="toggle(item[rootFold],rootFold,$event)"></ma-cell>
+      <ma-cell :obj="item" v-if="item[rootItem]" @select="toggle(item[rootItem],rootItem,$event)"></ma-cell>
     </div>
   </div>
 </template>
 
 <script>
-  import cell from 'components/cell/cell'
   import recursion from './recursion'
   export default {
     name: 'ma-treelist',
-    components: {cell},
     props: {
       tree: Array,
       rootId: {

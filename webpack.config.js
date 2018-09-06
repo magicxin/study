@@ -9,7 +9,7 @@ const config = {
   //],
   entry: {
     main: './src/main.js',
-    home: './src/home.js'
+    magic: './src/magic.js'
   },
   output: {
     path: path.resolve(__dirname, './dist'),
@@ -19,6 +19,7 @@ const config = {
   },
   resolve: {
     alias: {
+      '@':path.resolve(__dirname,'./src'),
       'assets':path.resolve(__dirname,'./src/assets'),
       'pages':path.resolve(__dirname,'./src/pages'),
       'router':path.resolve(__dirname,'./src/router'),
@@ -50,6 +51,16 @@ const config = {
     },{
       test: /\.css$/,
       use: ['vue-style-loader','css-loader']
+    },
+    {
+      test: /\.scss$/,
+      use: [{
+          loader: "style-loader" // 将 JS 字符串生成为 style 节点
+      }, {
+          loader: "css-loader" // 将 CSS 转化成 CommonJS 模块
+      }, {
+          loader: "sass-loader" // 将 Sass 编译成 CSS
+      }]
     },
     {
       test: /\.js$/,

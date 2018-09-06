@@ -37,7 +37,7 @@
       }
     },
     created() {
-      
+      console.log(this.obj)
     },
     methods: {
       emitClick() {
