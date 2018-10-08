@@ -7,7 +7,10 @@
            <el-menu-item :class="b('main','nav-item')" v-for="(item,index) in nav" :key="index" :index="index" >{{item.name}}</el-menu-item>
         </el-menu>
       </el-header>
-      <el-main :class="b('main','content')"></el-main>
+      <div :class="b('main','line')"></div>
+      <el-main :class="b('main','content')">
+        <ma-example></ma-example>
+      </el-main>
       <el-footer :class="b('main','footer')">Footer</el-footer>
     </el-container>
   </div>
@@ -15,8 +18,10 @@
 
 <script>
   import logo from 'assets/logo.jpg'
+  import maExample from 'pages/example/example'
   export default {
     name: 'index',
+    components: {maExample},
     data() {
       return {
         logo,
@@ -54,6 +59,10 @@
     &__header-logo {
       width: 100px;
     }
+    &__line {
+      height: 20px;
+      background: $background-light-grey;
+    }
     &__nav {
       border:none !important;
     }
@@ -64,7 +73,7 @@
       display:flex;
     }
     &__content {
-      min-height: calc(100vh - 120px);
+      min-height: calc(100vh - 140px);
     }
   }
 </style>

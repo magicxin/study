@@ -29,7 +29,7 @@ const config = {
       'utils':path.resolve(__dirname,'./src/utils'),
       'config':path.resolve(__dirname,'./src/config')
     },
-    extensions: ['*', '.js', '.vue', '.json']
+    extensions: ['*', '.js', '.vue', '.json', ',css', '.scss']
   },
   devServer: {
     port: 8088,
@@ -60,7 +60,13 @@ const config = {
       }, {
           loader: "css-loader" // 将 CSS 转化成 CommonJS 模块
       }, {
-          loader: "sass-loader" // 将 Sass 编译成 CSS
+          loader: "sass-loader"// 你也可以从一个文件读取，例如 `variables.scss`
+      },{
+        loader: "sass-resources-loader",
+        options: {
+          // 多个文件时用数组的形式传入，单个文件时可以直接使用 path.resolve(__dirname, '../static/style/common.scss'
+          resources: path.resolve(__dirname, './src/css/variable.scss') 
+        }
       }]
     },
     {
