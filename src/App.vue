@@ -1,14 +1,6 @@
 <template>
   <div id="app">
-    <div class="container">
-      <div class="header"></div>
-      <div class="main">
-        <router-view></router-view>
-      </div>
-      <div vlass="aside"></div>
-      <div class="footer"></div>
-    </div>
-      
+    <router-view></router-view>
   </div>
 </template>
 
