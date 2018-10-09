@@ -51,7 +51,7 @@
 </script>
 
 <style lang="scss">
-  .main {
+  .#{$namespace}-main {
     &__header {
       display:flex;
       align-items: center;
