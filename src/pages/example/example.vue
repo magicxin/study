@@ -3,8 +3,8 @@
     <div :class="b('example','content')">
       <el-row>
         <el-col :span="4" v-for="(item,i) in cards" :key="i" :offset="1">
-          <el-card :class="b('example','card')" :body-style="{ padding: '0px' }">
-            <img :src="card">
+          <el-card :class="b('example','card')" :body-style="{ padding: '0px' }" @click.native="routeTo">
+            <img :src="card" :class="b('example','card-image')">
             <div>
               <span>{{ item.title }}</span>
               <div>
@@ -66,6 +66,14 @@ export default {
         date: '1991-09-20'
       }]
     }
+  },
+  methods: {
+    routeTo() {
+      this.$router.push({
+        name: 'demo',
+        params: { _tag: 'sortable' }
+      })
+    }
   }
 }
 </script>
@@ -74,10 +82,10 @@ export default {
   .#{$namespace}-example {
     min-height: calc(100vh - 180px);
     &__content {
-      padding: 50px;
+      padding: 50px 100px;
     }
-    &__card {
-      
+    &__card-image {
+      width:100%;
     }
     &__pagination {
       display:flex;

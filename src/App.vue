@@ -11,7 +11,8 @@ export default {
   name: 'app',
   data () {
     return {
-      icon
+      icon,
+      layout:[]
     }
   }
 }

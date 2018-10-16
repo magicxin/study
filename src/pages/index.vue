@@ -11,7 +11,9 @@
       <el-main :class="b('main','content')">
         <ma-example></ma-example>
       </el-main>
-      <el-footer :class="b('main','footer')">Footer</el-footer>
+      <el-footer :class="b('main','footer')">
+        MIT Licensed | Copyright © 2018-present Magix Sui
+      </el-footer>
     </el-container>
   </div>
 </template>
@@ -74,6 +76,12 @@
     }
     &__content {
       min-height: calc(100vh - 140px);
+    }
+    &__footer {
+      text-align: center;
+      font-size: $fontsize-12;
+      line-height: 60px;
+      color: $font-color-grey;
     }
   }
 </style>
